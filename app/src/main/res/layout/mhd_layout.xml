@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="5dp"
+    android:paddingVertical="10dp">
+
+    <TextView
+        android:id="@+id/line_id"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="213"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:background="@drawable/line_background"
+        android:layout_marginRight="5dp"/>
+
+    <TextView
+        android:id="@+id/last_stop"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="18dp"
+        android:text="Želivského"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/time_leaving"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="10:32"
+        android:textColor="@color/black"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/line_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="+2"
+        android:textColor="@color/black"
+        android:textAlignment="textStart" />
+</androidx.appcompat.widget.LinearLayoutCompat>
