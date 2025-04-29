@@ -1,14 +1,10 @@
 package dev.chytac.map.map;
 
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.maplibre.android.location.permissions.PermissionsListener;
 import org.maplibre.android.location.permissions.PermissionsManager;
 import org.maplibre.android.maps.MapView;
-import org.maplibre.android.maps.OnMapReadyCallback;
 
 import java.util.List;
 

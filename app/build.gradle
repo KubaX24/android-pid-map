@@ -50,6 +50,8 @@ dependencies {
     implementation libs.jackson.databind
     implementation libs.android.sdk
     implementation libs.android.plugin.annotation.v9
+    implementation libs.commons.io
+    implementation libs.retrofit
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

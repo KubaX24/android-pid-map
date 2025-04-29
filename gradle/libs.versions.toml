@@ -16,6 +16,8 @@ jacksonDatabind = "2.19.0-rc2"
 mapboxAndroidPluginAnnotation = "0.3.0"
 androidSdk = "11.8.6"
 androidPluginAnnotationV9 = "3.0.2"
+commonsIo = "2.19.0"
+retrofit = "2.11.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,6 +42,8 @@ jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-datab
 mapbox-android-plugin-annotation = { group = "com.mapbox.mapboxsdk", name = "mapbox-android-plugin-annotation", version.ref = "mapboxAndroidPluginAnnotation" }
 android-sdk = { group = "org.maplibre.gl", name = "android-sdk", version.ref = "androidSdk" }
 android-plugin-annotation-v9 = { group = "org.maplibre.gl", name = "android-plugin-annotation-v9", version.ref = "androidPluginAnnotationV9" }
+commons-io = { group = "commons-io", name = "commons-io", version.ref = "commonsIo" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

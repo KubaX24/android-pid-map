@@ -2,7 +2,6 @@ package dev.chytac.map.map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.location.Location;
 
 import org.maplibre.android.location.LocationComponent;
 import org.maplibre.android.location.LocationComponentActivationOptions;
@@ -10,7 +9,6 @@ import org.maplibre.android.location.LocationComponentOptions;
 import org.maplibre.android.location.engine.LocationEngineRequest;
 import org.maplibre.android.location.modes.CameraMode;
 import org.maplibre.android.maps.MapLibreMap;
-import org.maplibre.android.maps.MapView;
 import org.maplibre.android.maps.Style;
 
 public class CurrentLocation {
