@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class LineEntity {
 
-    String id;
+    String name;
     String finalStation;
     LocalDateTime departure;
 
@@ -13,19 +13,22 @@ public class LineEntity {
      */
     int delay;
 
-    public LineEntity(String id, String finalStation, LocalDateTime departure, int delay) {
-        this.id = id;
+    String type;
+
+    public LineEntity(String name, String finalStation, LocalDateTime departure, int delay, String type) {
+        this.name = name;
         this.finalStation = finalStation;
         this.departure = departure;
         this.delay = delay;
+        this.type = type;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFinalStation() {
@@ -50,5 +53,13 @@ public class LineEntity {
 
     public void setDelay(int delay) {
         this.delay = delay;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

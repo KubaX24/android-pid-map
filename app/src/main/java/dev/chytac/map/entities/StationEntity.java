@@ -7,13 +7,17 @@ public class StationEntity {
     String platform;
     double lat;
     double lng;
+    int cis;
+    String type;
 
-    public StationEntity(String id, String name, String platform, double lat, double lng) {
+    public StationEntity(String id, String name, String platform, double lat, double lng, int cis, String type) {
         this.id = id;
         this.name = name;
         this.platform = platform;
         this.lat = lat;
         this.lng = lng;
+        this.cis = cis;
+        this.type = type;
     }
 
     public String getId() {
@@ -54,5 +58,21 @@ public class StationEntity {
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public int getCis() {
+        return cis;
+    }
+
+    public void setCis(int cis) {
+        this.cis = cis;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

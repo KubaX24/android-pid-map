@@ -2,6 +2,7 @@ package dev.chytac.map.map;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -17,6 +18,8 @@ import org.maplibre.android.utils.BitmapUtils;
 
 import java.util.List;
 
+import dev.chytac.map.Env;
+import dev.chytac.map.MainActivity;
 import dev.chytac.map.R;
 import dev.chytac.map.entities.StationEntity;
 import dev.chytac.map.servicies.PIDService;
@@ -25,7 +28,7 @@ import dev.chytac.map.task.StationAsyncTask;
 
 public class Map  {
 
-    private static final String STYLE_URL = "";
+    private static final String STYLE_URL = Env.MAPTILER_URL;
 
     private final MapView mapView;
     private final Context context;
@@ -34,42 +37,42 @@ public class Map  {
     private final StationService stationService;
     private final PIDService pidService;
 
-    private final StationAsyncTask stationAsyncTask;
+    private final View loadingView;
 
-    public Map(Context context, MapView mapView, BottomSheetDialog bottomSheetDialog) {
+    public Map(Context context, MapView mapView, BottomSheetDialog bottomSheetDialog, View loadingView) {
         this.context = context;
         this.mapView = mapView;
         this.bottomSheetDialog = bottomSheetDialog;
+        this.loadingView = loadingView;
 
         this.pidService = new PIDService();
         this.stationService = new StationService(pidService, context);
-        this.stationAsyncTask = new StationAsyncTask(stationService);
     }
 
     public void onMapReady(@NonNull MapLibreMap mapLibreMap) {
         CurrentLocation currentLocation = new CurrentLocation(context, mapLibreMap);
         PointsManager pointsManager = new PointsManager(context, bottomSheetDialog);
+        StationAsyncTask stationAsyncTask = new StationAsyncTask(stationService, mapView, mapLibreMap, pointsManager, loadingView);
 
         stationAsyncTask.execute();
 
         mapLibreMap.setStyle(STYLE_URL, style -> {
-            Drawable pinDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.bus, null);
+            Drawable busDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.bus, null);
+            Drawable tramDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.tram, null);
+            Drawable trainDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.train_s, null);
+            Drawable metroDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.metro, null);
+            Drawable pidDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.pid, null);
 
             currentLocation.locationStyle(style);
 
-            style.addImage("marker-bus", BitmapUtils.getBitmapFromDrawable(pinDrawable));
-
-            SymbolManager symbolManager = new SymbolManager(mapView, mapLibreMap, style);
-
-//            StationEntity stationA = new StationEntity("1s12d", "a", "a", 50.04213381478982, 14.485641370470034);
-//            symbolManager.create(pointsManager.drawStation(stationA));
-
-            List<StationEntity> stations = stationService.getStation();
-            stations.forEach(station -> symbolManager.create(pointsManager.drawStation(station)));
-
-            symbolManager.addClickListener(pointsManager::onPointClick);
+            style.addImage("marker-bus", BitmapUtils.getBitmapFromDrawable(busDrawable));
+            style.addImage("marker-tram", BitmapUtils.getBitmapFromDrawable(tramDrawable));
+            style.addImage("marker-train", BitmapUtils.getBitmapFromDrawable(trainDrawable));
+            style.addImage("marker-metro", BitmapUtils.getBitmapFromDrawable(metroDrawable));
+            style.addImage("marker-pid", BitmapUtils.getBitmapFromDrawable(pidDrawable));
         });
 
+        mapLibreMap.setMinZoomPreference(13.0);
         mapLibreMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(0.0, 0.0)).zoom(14.0).build());
     }
 }

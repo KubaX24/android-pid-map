@@ -1,11 +1,7 @@
 package dev.chytac.map;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -16,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.maplibre.android.MapLibre;
-import org.maplibre.android.camera.CameraPosition;
-import org.maplibre.android.geometry.LatLng;
 import org.maplibre.android.maps.MapLibreMap;
 import org.maplibre.android.maps.MapView;
 import org.maplibre.android.maps.OnMapReadyCallback;
@@ -49,10 +43,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
 
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this, R.style.BottomSheetTheme);
-        View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.sheet_test, null);
+        View sheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.sheet_info, null);
         bottomSheetDialog.setContentView(sheetView);
 
-        map = new Map(this, mapView, bottomSheetDialog);
+        View loadingView = findViewById(R.id.loading_view);
+
+        map = new Map(this, mapView, bottomSheetDialog, loadingView);
 
         locationPermission = new LocationPermission(this, mapView);
         locationPermission.checkPermissions();

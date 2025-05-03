@@ -30,10 +30,6 @@ public class StationService {
         this.pidService = pidService;
         this.ctx = ctx;
 
-//        this.gson = new GsonBuilder()
-//                .registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (json, typeOfT, context) ->
-//                        LocalDate.parse(json.getAsString(), DateTimeFormatter.ISO_DATE)).create();
-
         this.gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
     }
 

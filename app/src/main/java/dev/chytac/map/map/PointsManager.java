@@ -17,6 +17,7 @@ import java.time.LocalDate;
 
 import dev.chytac.map.R;
 import dev.chytac.map.entities.StationEntity;
+import dev.chytac.map.task.DepartureAsyncTask;
 
 public class PointsManager {
 
@@ -29,26 +30,17 @@ public class PointsManager {
     }
 
     public boolean onPointClick(Symbol symbol) {
-        LinearLayout linearLayout = bottomSheetDialog.findViewById(R.id.info_view);
-
         Gson gson = new Gson();
         StationEntity station = gson.fromJson(symbol.getData(), StationEntity.class);
 
         TextView stationName = bottomSheetDialog.findViewById(R.id.station_name);
         stationName.setText(station.getName());
 
-        for (int i = 0; i < 99; i++) {
-            View line = LayoutInflater.from(context.getApplicationContext()).inflate(R.layout.mhd_layout, null);
-            TextView lineId = line.findViewById(R.id.line_id);
-            lineId.setOnClickListener(view -> {
+        LinearLayout linesLayout = bottomSheetDialog.findViewById(R.id.lines_view);
+        linesLayout.removeAllViews();
 
-            });
-
-            TextView lineDelay = line.findViewById(R.id.line_delay);
-            lineDelay.setText(LocalDate.now().toString());
-
-            linearLayout.addView(line);
-        }
+        DepartureAsyncTask departureAsyncTask = new DepartureAsyncTask(station, linesLayout, context);
+        departureAsyncTask.execute();
 
         bottomSheetDialog.show();
 
@@ -57,10 +49,27 @@ public class PointsManager {
 
     public SymbolOptions drawStation(StationEntity station) {
         Gson gson = new Gson();
+        String icon = "marker-pid";
+
+        switch (station.getType()) {
+            case "bus":
+                icon = "marker-bus";
+                break;
+            case "tram":
+                icon = "marker-tram";
+                break;
+            case "train":
+                icon = "marker-train";
+                break;
+        }
+
+        if (station.getType().contains("metro")) {
+            icon = "marker-metro";
+        }
 
         return new SymbolOptions()
                 .withLatLng(new LatLng(station.getLat(), station.getLng()))
-                .withIconImage("marker-bus")
+                .withIconImage(icon)
                 .withIconAnchor("center")
                 .withData(gson.toJsonTree(station));
     }
