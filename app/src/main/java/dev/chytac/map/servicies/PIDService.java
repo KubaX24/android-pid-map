@@ -22,7 +22,6 @@ public class PIDService {
     private static final String PID_API_URL = "https://api.golemio.cz/v2";
     private static final String STATIONS_URL = "https://data.pid.cz/stops/json/stops.json";
 
-    //TODO remove before push
     private static final String TOKEN = Env.PID_API_TOKEN;
 
     public List<StationEntity> getStation() throws IOException {
@@ -58,7 +57,7 @@ public class PIDService {
     public List<LineEntity> getLines(String stationId) throws IOException {
         List<LineEntity> lines = new ArrayList<>();
 
-        try (BufferedReader in = apiRequest(PID_API_URL + "/pid/departureboards?ids=" + stationId + "&limit=10", true)) {
+        try (BufferedReader in = apiRequest(PID_API_URL + "/pid/departureboards?ids=" + stationId + "&limit=20", true)) {
             TransitData transitData = objectFromRequest(in, TransitData.class);
 
             for (TransitData.Departure departure : transitData.getDepartures()) {

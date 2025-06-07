@@ -1,5 +1,6 @@
 package dev.chytac.map.map;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 
 import dev.chytac.map.R;
 import dev.chytac.map.entities.StationEntity;
+import dev.chytac.map.notification.NotificationAppManager;
 import dev.chytac.map.task.DepartureAsyncTask;
 
 public class PointsManager {
@@ -24,9 +26,12 @@ public class PointsManager {
     private final Context context;
     private final BottomSheetDialog bottomSheetDialog;
 
-    public PointsManager(Context context, BottomSheetDialog bottomSheetDialog) {
+    private final NotificationAppManager notificationManager;
+
+    public PointsManager(Context context, BottomSheetDialog bottomSheetDialog, NotificationAppManager notificationManager) {
         this.context = context;
         this.bottomSheetDialog = bottomSheetDialog;
+        this.notificationManager = notificationManager;
     }
 
     public boolean onPointClick(Symbol symbol) {
@@ -39,7 +44,7 @@ public class PointsManager {
         LinearLayout linesLayout = bottomSheetDialog.findViewById(R.id.lines_view);
         linesLayout.removeAllViews();
 
-        DepartureAsyncTask departureAsyncTask = new DepartureAsyncTask(station, linesLayout, context);
+        DepartureAsyncTask departureAsyncTask = new DepartureAsyncTask(station, linesLayout, context, notificationManager);
         departureAsyncTask.execute();
 
         bottomSheetDialog.show();

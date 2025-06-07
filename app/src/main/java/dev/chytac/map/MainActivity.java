@@ -1,5 +1,6 @@
 package dev.chytac.map;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.LayoutInflater;
@@ -18,18 +19,23 @@ import org.maplibre.android.maps.OnMapReadyCallback;
 
 import dev.chytac.map.map.LocationPermission;
 import dev.chytac.map.map.Map;
+import dev.chytac.map.notification.NotificationAppManager;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private MapView mapView;
 
     private LocationPermission locationPermission;
+    private NotificationAppManager notificationAppManager;
 
     private Map map;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationAppManager = new NotificationAppManager(notificationManager, this);
 
         MapLibre.getInstance(this);
 
@@ -48,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         View loadingView = findViewById(R.id.loading_view);
 
-        map = new Map(this, mapView, bottomSheetDialog, loadingView);
+        map = new Map(this, mapView, bottomSheetDialog, loadingView, notificationAppManager);
 
         locationPermission = new LocationPermission(this, mapView);
         locationPermission.checkPermissions();
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        notificationAppManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         locationPermission.onRequestPermission(requestCode, permissions, grantResults);
     }
 

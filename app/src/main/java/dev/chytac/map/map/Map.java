@@ -1,5 +1,6 @@
 package dev.chytac.map.map;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -22,6 +23,7 @@ import dev.chytac.map.Env;
 import dev.chytac.map.MainActivity;
 import dev.chytac.map.R;
 import dev.chytac.map.entities.StationEntity;
+import dev.chytac.map.notification.NotificationAppManager;
 import dev.chytac.map.servicies.PIDService;
 import dev.chytac.map.servicies.StationService;
 import dev.chytac.map.task.StationAsyncTask;
@@ -37,13 +39,17 @@ public class Map  {
     private final StationService stationService;
     private final PIDService pidService;
 
+    private final NotificationAppManager notificationManager;
+
     private final View loadingView;
 
-    public Map(Context context, MapView mapView, BottomSheetDialog bottomSheetDialog, View loadingView) {
+    public Map(Context context, MapView mapView, BottomSheetDialog bottomSheetDialog, View loadingView, NotificationAppManager notificationManager) {
         this.context = context;
         this.mapView = mapView;
         this.bottomSheetDialog = bottomSheetDialog;
         this.loadingView = loadingView;
+
+        this.notificationManager = notificationManager;
 
         this.pidService = new PIDService();
         this.stationService = new StationService(pidService, context);
@@ -51,7 +57,7 @@ public class Map  {
 
     public void onMapReady(@NonNull MapLibreMap mapLibreMap) {
         CurrentLocation currentLocation = new CurrentLocation(context, mapLibreMap);
-        PointsManager pointsManager = new PointsManager(context, bottomSheetDialog);
+        PointsManager pointsManager = new PointsManager(context, bottomSheetDialog, notificationManager);
         StationAsyncTask stationAsyncTask = new StationAsyncTask(stationService, mapView, mapLibreMap, pointsManager, loadingView);
 
         stationAsyncTask.execute();

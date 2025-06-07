@@ -16,6 +16,7 @@ import java.util.List;
 import dev.chytac.map.R;
 import dev.chytac.map.entities.LineEntity;
 import dev.chytac.map.entities.StationEntity;
+import dev.chytac.map.notification.NotificationAppManager;
 import dev.chytac.map.servicies.PIDService;
 
 public class DepartureAsyncTask extends AsyncTask<Void, Void, List<LineEntity>> {
@@ -26,10 +27,13 @@ public class DepartureAsyncTask extends AsyncTask<Void, Void, List<LineEntity>> 
 
     private final PIDService pidService;
 
-    public DepartureAsyncTask(StationEntity station, LinearLayout linearLayout, Context context) {
+    private final NotificationAppManager notificationManager;
+
+    public DepartureAsyncTask(StationEntity station, LinearLayout linearLayout, Context context, NotificationAppManager notificationManager) {
         this.station = station;
         this.linearLayout = linearLayout;
         this.context = context;
+        this.notificationManager = notificationManager;
 
         this.pidService = new PIDService();
     }
@@ -42,6 +46,8 @@ public class DepartureAsyncTask extends AsyncTask<Void, Void, List<LineEntity>> 
             throw new RuntimeException(e);
         }
     }
+
+    private int id = 1;
 
     @Override
     protected void onPostExecute(List<LineEntity> lines) {
@@ -75,20 +81,24 @@ public class DepartureAsyncTask extends AsyncTask<Void, Void, List<LineEntity>> 
                     backName.setTint(Color.rgb(200, 200, 200));
             }
 
+
+            lineName.setOnClickListener(view -> notificationManager.showDepartureNotification(id++, line));
             lineName.setBackground(backName);
 
             TextView finalStation = lineView.findViewById(R.id.last_stop);
             finalStation.setText(line.getFinalStation());
 
+            String departureTimeString = line.getDeparture().format(new DateTimeFormatterBuilder().appendPattern("HH:mm").toFormatter());
+
             TextView departureTime = lineView.findViewById(R.id.time_leaving);
-            departureTime.setText(line.getDeparture().format(new DateTimeFormatterBuilder().appendPattern("HH:mm").toFormatter()));
+            departureTime.setText(departureTimeString);
 
             TextView delay = lineView.findViewById(R.id.line_delay);
-            if (line.getDelay() == 0) {
+
+            if (line.getDelay() == 0)
                 delay.setVisibility(View.GONE);
-            } else {
+            else
                 delay.setText("+" + line.getDelay());
-            }
 
             linearLayout.addView(lineView);
         }
