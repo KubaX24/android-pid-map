@@ -52,7 +52,7 @@ public class StationService {
                 StationSaveEntity stationSave = gson.fromJson(json, StationSaveEntity.class);
                 Log.d(TAG, "Loaded " + stationSave.getStations().size() + " stations | Last update:" + stationSave.getTimestamp());
 
-                if (!stationSave.getStations().isEmpty()) {
+                if (!LocalDate.parse(stationSave.getTimestamp()).isBefore(LocalDate.now())) {
                     return;
                 }
             }
@@ -60,7 +60,7 @@ public class StationService {
             Log.d(TAG, "Loading stations to local storage");
 
             try (FileWriter writer = new FileWriter(stationFile)) {
-                StationSaveEntity newStationSave = new StationSaveEntity(LocalDate.now(), pidService.getStation());
+                StationSaveEntity newStationSave = new StationSaveEntity(LocalDate.now().toString(), pidService.getStation());
                 writer.append(gson.toJson(newStationSave));
 
                 writer.flush();

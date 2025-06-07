@@ -5,19 +5,19 @@ import java.util.List;
 
 public class StationSaveEntity {
 
-    LocalDate timestamp;
+    String timestamp;
     List<StationEntity> stations;
 
-    public StationSaveEntity(LocalDate timestamp, List<StationEntity> stations) {
+    public StationSaveEntity(String timestamp, List<StationEntity> stations) {
         this.timestamp = timestamp;
         this.stations = stations;
     }
 
-    public LocalDate getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDate timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
