@@ -17,7 +17,7 @@ Následně v `dev.chytac.map` adresáři je nutné vytvořit třídu `Env.class`
 package dev.chytac.map;
 
 public class Env {
-    public static final String MAPTILER_URL = "<token>";
-    public static final String PID_API_TOKEN = "<style-url>";
+    public static final String MAPTILER_URL = "<style-url>";
+    public static final String PID_API_TOKEN = "<token>";
 }
 ```
